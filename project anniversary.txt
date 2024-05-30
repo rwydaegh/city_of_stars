@@ -1,0 +1,27 @@
+project anniversary
+
+https://starplot.dev/
+python libs exist that show night sky at a location and time
+types of qr codes
+-datamatrix has no real inner star thingy
+-aztec is more interesting https://altcraft.com/blog/qr-codes-for-business
+print this really nicely
+
+going beyond is making an app
+like adding a music playlist to it with all the nice songs of our relationship
+
+
+--
+Blogpost: "We can observe the sky at different angles" --> so it is possible to make it 3D?
+
+also an idea is to work on the planning of the trip and present that
+
+
+https://stackoverflow.com/questions/49955489/how-to-develop-android-app-completely-using-python
+
+https://github.com/UXVirtual/night-sky
+
+
+you will need a really high resolution to resolve most stars
+and then the best thing that could be is that she has to zoom into the screen with her camera to better see the qr code and then she can tap it and have the link
+
