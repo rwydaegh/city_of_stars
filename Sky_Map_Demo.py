@@ -1,10 +1,11 @@
 from datetime import datetime
 from pytz import timezone, utc
+from aztec_code_generator import AztecCode
 
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.collections import LineCollection
 from matplotlib.patches import Circle
+from mpl_interactions import panhandler, zoom_factory
 
 from skyfield.api import Star, load, wgs84
 from skyfield.data import hipparcos
@@ -19,9 +20,9 @@ eph = load('de421.bsp')
 with load.open(hipparcos.URL) as f:
     stars = hipparcos.load_dataframe(f)
 
-# get latitude and longitude of our location 
-lat, long = 47.400698, 8.512807
-when = '2023-06-14 23:00'
+# place and time of our location 
+lat, long = 47.400698, 8.512807 # Zurich, Switzerland
+when = '2023-06-14 12:00' # When we said 'I love you' to each other
 
 # convert date string into datetime object
 dt = datetime.strptime(when, '%Y-%m-%d %H:%M')
@@ -60,6 +61,7 @@ field_of_view_degrees = 180.0
 star_positions = earth.at(t).observe(Star.from_dataframe(stars))
 stars['x'], stars['y'] = projection(star_positions)
 
+
 chart_size = 10
 max_star_size = 100
 limiting_magnitude = 10
@@ -78,6 +80,15 @@ ax.scatter(stars['x'][bright_stars], stars['y'][bright_stars],
            s=marker_size, color='white', marker='.', linewidths=0, 
            zorder=2)
 
+# now add the sun
+'''
+sun_position = earth.at(t).observe(sun).apparent()
+sun_x, sun_y = projection(sun_position)
+sun_marker_size = 100 * 10 ** (magnitude.min() / 2 / -2.5)
+sun_marker = plt.Circle((sun_x, sun_y), sun_marker_size, color='yellow', zorder=3)
+plt.gca().add_patch(sun_marker)
+'''
+
 horizon = Circle((0, 0), radius=1, transform=ax.transData)
 for col in ax.collections:
     col.set_clip_path(horizon)
@@ -87,5 +98,9 @@ for col in ax.collections:
 ax.set_xlim(-1, 1)
 ax.set_ylim(-1, 1)
 plt.axis('off')
+
+# Make the plot interactive
+zoom_factory(ax)
+panhandler(fig)
 
 plt.show()
